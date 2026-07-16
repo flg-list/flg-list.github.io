@@ -10,6 +10,7 @@ import {
   stageProgress,
   momentum,
   commitmentState,
+  applicableSteps,
 } from "@/lib/engine";
 import { stageById, stepById } from "@/lib/journey";
 import { EFFORT_LABELS, PROJECT_TYPE_LABELS, Project, Step } from "@/lib/types";
@@ -23,6 +24,7 @@ function ProjectPageContent() {
   const [stuckOpen, setStuckOpen] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [showLog, setShowLog] = useState(false);
+  const [showParked, setShowParked] = useState(false);
 
   if (!hydrated) return null;
   const project = state.projects.find((p) => p.id === id);
@@ -39,9 +41,20 @@ function ProjectPageContent() {
   const mom = momentum(project);
   const commit = commitmentState(project, step?.id);
 
-  const mark = (status: "done" | "skipped", note?: string) => {
+  // Parked steps list (for the resume panel)
+  const parkedSteps = applicableSteps(project.type).filter(
+    (s) => project.steps[s.id]?.status === "parked"
+  );
+
+  const mark = (status: "done" | "skipped" | "parked", note?: string) => {
     if (!step) return;
     const now = new Date().toISOString();
+    const kindMap = { done: "done", skipped: "skip", parked: "park" } as const;
+    const textMap = {
+      done: `Completed: ${step.title}`,
+      skipped: `Skipped: ${step.title}${note ? ` (${note})` : ""}`,
+      parked: `Parked for later: ${step.title}`,
+    };
     updateProject(project.id, (p) => ({
       ...p,
       steps: { ...p.steps, [step.id]: { status, completedAt: now, note } },
@@ -49,8 +62,8 @@ function ProjectPageContent() {
       log: [
         {
           at: now,
-          kind: status === "done" ? "done" : "skip",
-          text: status === "done" ? `Completed: ${step.title}` : `Skipped: ${step.title}${note ? ` (${note})` : ""}`,
+          kind: kindMap[status],
+          text: textMap[status],
         },
         ...p.log,
       ],
@@ -60,6 +73,19 @@ function ProjectPageContent() {
       setCelebrate(step.title);
       setTimeout(() => setCelebrate(null), 3500);
     }
+  };
+
+  const resumeStep = (stepId: string) => {
+    const now = new Date().toISOString();
+    const s = stepById(stepId);
+    updateProject(project.id, (p) => ({
+      ...p,
+      steps: { ...p.steps, [stepId]: { status: "todo" } },
+      log: [
+        { at: now, kind: "info", text: `Resumed: ${s?.title ?? stepId}` },
+        ...p.log,
+      ],
+    }));
   };
 
   const commitBy = (days: number) => {
@@ -107,6 +133,11 @@ function ProjectPageContent() {
           <div className="text-[11px] text-slate-500">
             {prog.done} done · {mom.label}
           </div>
+          {prog.parked > 0 && (
+            <div className="text-[11px] text-amber-500/70 mt-0.5">
+              {prog.parked} parked
+            </div>
+          )}
         </div>
       </div>
 
@@ -130,6 +161,7 @@ function ProjectPageContent() {
             const reason = window.prompt("Why isn't this relevant? (helps me pick better steps)") || undefined;
             mark("skipped", reason);
           }}
+          onPark={() => mark("parked")}
           onStuck={() => setStuckOpen((v) => !v)}
           onCommit={commitBy}
         />
@@ -178,6 +210,37 @@ function ProjectPageContent() {
         )}
       </div>
 
+      {/* Parked steps panel */}
+      {parkedSteps.length > 0 && (
+        <div className="mt-3">
+          <button
+            onClick={() => setShowParked((v) => !v)}
+            className="text-sm text-amber-500/70 hover:text-amber-400"
+          >
+            {showParked ? "▾" : "▸"} Parked steps ({parkedSteps.length}) — pick one up anytime
+          </button>
+          {showParked && (
+            <div className="panel p-4 mt-2 grid gap-3">
+              {parkedSteps.map((s) => {
+                const stage = stageById(s.stage);
+                return (
+                  <div key={s.id} className="flex items-center gap-3 text-sm">
+                    <span className="text-base">{stage.emoji}</span>
+                    <span className="flex-1 text-slate-400">{s.title}</span>
+                    <button
+                      onClick={() => resumeStep(s.id)}
+                      className="btn btn-ghost !text-[11px] !py-1 !px-2"
+                    >
+                      ↩ Resume
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* History */}
       <div className="mt-3">
         <button
@@ -193,8 +256,13 @@ function ProjectPageContent() {
                 <span className="text-slate-600 text-xs shrink-0 w-20 pt-0.5">
                   {new Date(l.at).toLocaleDateString()}
                 </span>
-                <span className={l.kind === "done" ? "text-emerald-400" : l.kind === "skip" ? "text-slate-500" : "text-slate-400"}>
-                  {l.kind === "done" ? "✓ " : l.kind === "skip" ? "– " : ""}
+                <span className={
+                  l.kind === "done" ? "text-emerald-400" :
+                  l.kind === "skip" ? "text-slate-500" :
+                  l.kind === "park" ? "text-amber-500/70" :
+                  "text-slate-400"
+                }>
+                  {l.kind === "done" ? "✓ " : l.kind === "skip" ? "– " : l.kind === "park" ? "🅿 " : ""}
                   {l.text}
                 </span>
               </div>
@@ -235,6 +303,7 @@ function FocusCard(props: {
   onDone: () => void;
   onAlready: () => void;
   onSkip: () => void;
+  onPark: () => void;
   onStuck: () => void;
   onCommit: (days: number) => void;
 }) {
@@ -304,6 +373,9 @@ function FocusCard(props: {
         </button>
         <button onClick={props.onAlready} className="btn btn-ghost">
           Already did this
+        </button>
+        <button onClick={props.onPark} className="btn btn-ghost !text-amber-500/80 hover:!text-amber-400">
+          🅿 Park for now
         </button>
         <button onClick={props.onSkip} className="btn btn-ghost !text-slate-500">
           Not relevant

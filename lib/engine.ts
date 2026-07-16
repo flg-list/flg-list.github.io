@@ -6,22 +6,32 @@ export function applicableSteps(type: ProjectType): Step[] {
   return STEPS.filter((s) => !s.appliesTo || s.appliesTo.includes(type));
 }
 
-/** The ONE next action for a project. Null = journey complete. */
+/** The ONE next action for a project.
+ *  Pass 1: first step that is todo (never touched).
+ *  Pass 2: if everything is done/skipped/parked, cycle back the first parked step.
+ *  Returns null only when every applicable step is done or skipped.
+ */
 export function nextStep(project: Project): Step | null {
-  for (const step of applicableSteps(project.type)) {
+  const steps = applicableSteps(project.type);
+  // Pass 1 — skip parked, surface the first truly pending step
+  let firstParked: Step | null = null;
+  for (const step of steps) {
     const st = project.steps[step.id];
     if (!st || st.status === "todo") return step;
+    if (st.status === "parked" && !firstParked) firstParked = step;
   }
-  return null;
+  // Pass 2 — everything pending is parked; cycle the oldest parked one back
+  return firstParked;
 }
 
 export function progress(project: Project) {
   const steps = applicableSteps(project.type);
   const done = steps.filter((s) => project.steps[s.id]?.status === "done").length;
   const skipped = steps.filter((s) => project.steps[s.id]?.status === "skipped").length;
+  const parked = steps.filter((s) => project.steps[s.id]?.status === "parked").length;
   const total = steps.length;
-  const pct = total - skipped > 0 ? Math.round((done / (total - skipped)) * 100) : 100;
-  return { done, skipped, total, pct };
+  const pct = total - skipped > 0 ? Math.round((done / (total - skipped - parked)) * 100) : 100;
+  return { done, skipped, parked, total, pct };
 }
 
 export function stageProgress(project: Project) {

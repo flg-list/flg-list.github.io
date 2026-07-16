@@ -154,6 +154,26 @@ export const STEPS: Step[] = [
     resources: [{ label: "Cloudflare Email Routing", url: "https://www.cloudflare.com/developer-platform/email-routing/" }],
     effort: "S",
   },
+  {
+    id: "id-social-handles",
+    stage: "identity",
+    title: "Create & set up your social media presence",
+    why: "Organic social is free, compounding distribution. But it only works if you claim the handle before someone else does and show up consistently from day one.",
+    how: [
+      "X / Twitter: create @yourproduct. Bio = one-liner + link. Pin a tweet: 'Just launched X — here's what it does [link]'. Profile photo = product logo.",
+      "LinkedIn Page (not personal profile): same bio. Banner = product screenshot. Post cadence: 2× per week max.",
+      "Instagram: same handle. Profile photo = logo. Bio with link in bio (use Linktree or direct URL). Focus on visual output — screenshots, GIFs, behind-the-scenes.",
+      "TikTok (optional, high upside for consumer apps): @yourproduct. Bio = ultra-short one-liner. First video idea: '30-second app demo' — raw, no editing needed.",
+      "Use namechk.com to check handle availability across all platforms in one go.",
+      "Upload the same avatar and banner art everywhere — consistency = trust.",
+    ],
+    resources: [
+      { label: "namechk.com", url: "https://namechk.com" },
+      { label: "Canva (free banner maker)", url: "https://canva.com" },
+    ],
+    effort: "M",
+    assess: "Have you created and populated social profiles on at least 2 platforms?",
+  },
 
   // ───────────────────────── STAGE 3: LANDING ─────────────────────────
   {
@@ -471,6 +491,59 @@ export const STEPS: Step[] = [
     ],
     effort: "S",
   },
+  {
+    id: "ln-first-posts",
+    stage: "launch",
+    title: "Publish your first 5 posts (templates inside)",
+    why: "An empty profile is a trust killer. Five posts in the first week signals 'this account is alive' and seeds your algorithm ranking.",
+    how: [
+      "Post 1 — Problem story: 'I used to spend 2 hours on X every week. I built [product] to fix that. Here's how.' (no link yet — just the story).",
+      "Post 2 — The build reveal: 'I've been quietly building [product] for the past [N] weeks. Here's what it does and why I made it [link].' Include a GIF/screenshot.",
+      "Post 3 — Behind the scenes: 'Here's the stack I'm using and one weird decision I made.' Devs love this. Builds credibility without selling.",
+      "Post 4 — User benefit post: 'If you've ever struggled with [pain], [product] does [outcome] in [time]. Free to try → [link].'",
+      "Post 5 — Milestone share: 'First 24 hours: X visitors, Y signups, 1 piece of feedback that already changed my roadmap.' Real numbers = real trust.",
+      "Schedule one per day, Mon–Fri. Use Buffer or Typefully free tiers to queue them.",
+    ],
+    resources: [
+      { label: "Typefully (thread scheduler)", url: "https://typefully.com" },
+      { label: "Buffer (multi-platform)", url: "https://buffer.com" },
+    ],
+    effort: "M",
+    assess: "Have you published at least 5 posts about your product on social media?",
+  },
+  {
+    id: "ln-blog-seed",
+    stage: "launch",
+    title: "Write your first SEO blog article",
+    why: "One well-targeted article can send you qualified traffic for years. It also builds authority that cold social posts never will.",
+    how: [
+      "Pick an angle — choose one: (A) Tutorial: 'How to do X without Y' (solves the problem your product solves). (B) Story: 'How I built [product] in [N] days and what I learned'. (C) Comparison: '[Your tool] vs [incumbent]: an honest comparison'.",
+      "Headline formula: '[Keyword] — [Specific Outcome/Number]'. Example: 'PDF compression in the browser — no uploads, no server, 100% private'.",
+      "Outline: Hook paragraph → Problem → Solution walkthrough (3-5 steps) → Conclusion with one CTA → link to your product.",
+      "Publish on dev.to or Hashnode first (free, built-in audience, SEO-friendly). Cross-post to your own blog after 2 weeks.",
+      "Share the published article as Post 6 on all your social channels.",
+    ],
+    resources: [
+      { label: "dev.to", url: "https://dev.to" },
+      { label: "Hashnode", url: "https://hashnode.com" },
+    ],
+    effort: "M",
+  },
+  {
+    id: "ln-comment-seed",
+    stage: "launch",
+    title: "Spend 15 min/day adding value in niche communities",
+    why: "Genuine, helpful comments in the right communities drive more qualified signups than most paid campaigns — and they cost nothing but time.",
+    how: [
+      "Find 3-5 communities where your exact user hangs out: subreddits, Discord servers, Slack groups, Indie Hackers, Twitter spaces. (e.g. r/webdev, r/sideprojects, r/Entrepreneur, Indie Hackers)",
+      "Rule: answer 5 questions for every 1 mention of your product. Build trust before you pitch.",
+      "What to say when you do mention it: 'I ran into this exact problem and built [product] to solve it — it's free to try if helpful [link].' Only say this when directly relevant.",
+      "Bookmark threads where your problem is discussed. Set a Google Alert for your target keywords + 'reddit' or 'how to'.",
+      "15 minutes per day beats one hour once a week. Consistency is the only algorithm.",
+    ],
+    effort: "S",
+    assess: "Have you made genuine, value-first comments in at least 3 communities this week?",
+  },
 
   // ──────────────────────── STAGE 8: SUPPORT ──────────────────────────
   {
@@ -540,6 +613,22 @@ export const STEPS: Step[] = [
       "And come back here — that's what this platform is for. ☕",
     ],
     effort: "S",
+  },
+  {
+    id: "mo-content-sprint",
+    stage: "momentum",
+    title: "Run your first 4-week content sprint",
+    why: "Consistent content compounds. Week 1 feels invisible. Week 4 starts getting shares. Week 8 starts getting DMs. You just have to survive week 1.",
+    how: [
+      "Week 1 — Foundation: Post your intro story ('why I built this') on every platform you set up. Pin it. Reply to every comment within the hour.",
+      "Week 2 — Tutorial: Write or film 'How to [do the thing your product does] step by step'. This is your highest-value SEO and social content. Link back to your product naturally.",
+      "Week 3 — Social proof: Share one real user story or piece of feedback (with permission). Even 'someone emailed me saying it saved them an hour' counts. Metrics: share your numbers honestly — people respect transparency.",
+      "Week 4 — Ask: Post 'What would make [product] a must-have for you?' Tag your niche community. Engage every reply. This doubles as market research.",
+      "Cross-post every piece across all your active platforms, adapted for format (thread on X, carousel on LinkedIn, short video on TikTok if applicable).",
+      "After week 4: review what got the most engagement. Double down on that format for the next sprint.",
+    ],
+    effort: "L",
+    assess: "Have you completed a full 4-week content sprint with at least one post per week?",
   },
   {
     id: "mo-milestone",

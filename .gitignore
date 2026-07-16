@@ -1,6 +1,6 @@
 # dependencies
 node_modules
-
+.codegraph/
 # Next.js build output and cache
 .next/
 out/

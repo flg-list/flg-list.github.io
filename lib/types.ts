@@ -1,6 +1,6 @@
 export type ProjectType = "webapp" | "mobile" | "oss" | "api";
 
-export type StepStatus = "todo" | "done" | "skipped";
+export type StepStatus = "todo" | "done" | "skipped" | "parked";
 
 export type Effort = "S" | "M" | "L"; // <1h, half a day, multi-day
 
@@ -39,7 +39,7 @@ export interface StepState {
 export interface LogEntry {
   at: string;
   text: string;
-  kind: "done" | "skip" | "commit" | "info";
+  kind: "done" | "skip" | "commit" | "info" | "park";
 }
 
 export interface Project {

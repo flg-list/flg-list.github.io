@@ -21,6 +21,8 @@ export interface Step {
   appliesTo?: ProjectType[];
   /** Question asked during onboarding assessment ("yes" marks it done) */
   assess?: string;
+  /** Optional AI prompt the user can browse and copy to get started */
+  prompt?: string;
 }
 
 export interface Stage {

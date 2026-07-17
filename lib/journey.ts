@@ -173,6 +173,76 @@ export const STEPS: Step[] = [
     ],
     effort: "M",
     assess: "Have you created and populated social profiles on at least 2 platforms?",
+    prompt: `# Prompt — Self-Paced Distribution Checklist
+
+> Fill the five inputs. Paste the whole thing as one prompt.
+
+---
+
+\`\`\`yaml
+PRODUCT_NAME: "{{PRODUCT_NAME}}"
+PRODUCT_DESCRIPTION: "{{PRODUCT_DESCRIPTION}}"   # 2–4 sentences: what it does, who for, what it replaces
+PRODUCT_URL: "{{PRODUCT_URL}}"
+PRODUCT_STAGE: "{{PRODUCT_STAGE}}"               # e.g. live on GitHub Pages, no analytics, no email capture
+CORE_DIFFERENTIATOR: "{{CORE_DIFFERENTIATOR}}"   # the one true claim, e.g. "files never leave the device"
+\`\`\`
+
+---
+
+## ROLE
+
+You are a senior digital growth strategist who has taken bootstrapped developer tools from zero to their first thousand users through organic posting alone. You have also been shadowbanned from subreddits and know exactly why.
+
+## SITUATION
+
+A solo founder has shipped V0 of the product above and now wants to run one decent distribution cycle at their own pace. Fresh Reddit account, zero karma. X account not created yet. No budget, no design skills, no team, no schedule. They will work through a checklist item by item whenever they get an hour.
+
+## WHAT YOU DECIDE, NOT THEM
+
+The founder should not have to think. Do their thinking for them:
+
+- **Work out who the users are.** From the description, derive the specific person and the specific moment they hit this problem. State your reasoning in one short block up front, then commit to it.
+- **Name the actual communities.** Real subreddit names, real hashtags, real accounts worth replying to. Not "find relevant communities."
+- **Write the actual words.** Every post title, body, comment, and reply is delivered verbatim in a fenced block, ready to paste.
+- **Create the brand assets** as part of the plan — name a free tool, give the click path, give the exact text and colours. If no brand exists, pick a colour pair and a font in item one and lock them.
+
+## THE COMPOUNDING POINT
+
+This checklist should demonstrate that boring repeated deposits beat one big launch post. Make that visible in the structure: nothing built early is disposable, everything gets reused or upgraded later, and account standing is treated as a balance you deposit into before you withdraw from.
+
+## HARD RULES
+
+1. **Warm-up comes first.** With a zero-karma account, the first stretch of the checklist posts **no links at all**. Say what the account needs to clear and how the founder checks whether it's cleared.
+2. **Self-promo ratio.** State an explicit ratio of useful-contribution to promotional actions, and enforce it in the checklist ordering.
+3. **Rules-check is its own item.** Before the first post to any community, there's a checklist item to read that community's rules and record what they say.
+4. **Don't fabricate.** Never assert member counts, mod behaviour, or rule details as fact. If you're unsure a community exists or fits, mark the item \`[CONFIRM FIRST]\` and say what to look for.
+5. **No astroturfing.** No fake discovery posts, no second accounts, no vote manipulation. Where affiliation matters, disclosure is in the verbatim copy.
+
+## BANNED PHRASINGS
+
+If a draft item contains any of these, rewrite it: "find a relevant…", "engage authentically", "identify communities where…", "share your insights", "tailor the message", "as appropriate", "build relationships". Anything the founder must supply appears as \`[FILL: …]\` and must be a fact they can read off a screen, never a sentence they have to invent.
+
+## BRANCHES
+
+Pre-decide the forks, as a short lookup table. What to do when: post removed by mod/AutoMod, post lands at near-zero, someone calls it an ad, someone asks something you can't answer, post unexpectedly takes off, community rules turn out to forbid the planned post.
+
+## OUTPUT — three files
+
+**1. \`reddit-checklist.md\`** and **2. \`x-checklist.md\`** — same shape:
+
+- **Stages** — the cycle split into named stages, each with a goal and an exit condition (an observable thing, not a date).
+- **Setup** — profile, bio, avatar, flair. Verbatim.
+- **Asset build** — batched into one or two sittings, with tool + click path + exact copy, so posting never blocks on production.
+- **The checklist** — numbered items, sequential, each with a checkbox, the destination, the artifact it uses, and a done-when. No dates, no times. Ordered, not scheduled.
+- **Copy bank** — every post, comment, and reply, numbered, referenced from the checklist by ID.
+- **Branch table.**
+- **What gets you banned here** — channel-specific.
+
+**3. \`tracker.md\`** — one line per action, with a running cumulative column so the curve is visible, plus a short review block: three questions answerable purely from numbers already logged, and a fixed rule for what changes based on each answer.
+
+## FORMAT
+
+Checkboxes, tables, fenced blocks. No preamble, no motivational framing inside the files. If you assumed something to fill a gap, list it in a short \`ASSUMPTIONS\` block before the files.`,
   },
 
   // ───────────────────────── STAGE 3: LANDING ─────────────────────────
